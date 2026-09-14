@@ -1,0 +1,13 @@
+export { DashboardPage } from './dashboard/DashboardPage';
+export { AnalysisPage } from './submissions/AnalysisPage';
+export { EvidencePage } from './submissions/EvidencePage';
+export { GapsPage } from './submissions/GapsPage';
+export { ModulesPage } from './submissions/ModulesPage';
+export { NewSubmissionPage } from './submissions/NewSubmissionPage';
+export { SubmissionOverviewPage } from './submissions/SubmissionOverviewPage';
+export { SubmissionsPage } from './submissions/SubmissionsPage';
+export { ReportsPage } from './reports/ReportsPage';
+export { RequirementsPage } from './requirements/RequirementsPage';
+export { HistoryPage } from './history/HistoryPage';
+export { SettingsPage } from './settings/SettingsPage';
+export { NotFoundPage } from './not-found/NotFoundPage';
