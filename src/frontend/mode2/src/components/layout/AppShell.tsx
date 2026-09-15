@@ -6,6 +6,7 @@ import {
   FolderKanban,
   History,
   LayoutDashboard,
+  LibraryBig,
   Menu,
   Search,
   Settings,
@@ -21,6 +22,7 @@ const navItems = [
   { href: '/submissions', label: 'Submissions', icon: FolderKanban },
   { href: '/reports', label: 'Reports', icon: FileText },
   { href: '/requirements', label: 'Requirements', icon: ClipboardCheck },
+  { href: '/official-ctd', label: 'Official CTD library', icon: LibraryBig },
 ];
 
 const workspaceItems = [
