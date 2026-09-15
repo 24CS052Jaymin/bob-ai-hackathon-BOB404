@@ -115,14 +115,14 @@ npm run dev
 
 > Be honest — judges appreciate transparency over overclaiming.
 
-- Authentication and production-grade role-based access control are not implemented.
-- Mode 2 depends on configured MongoDB access and the availability of the selected embedding model; a local deterministic retrieval fallback supports report generation when vector search is unavailable.
-- Results support evidence review and prioritisation; they are not a substitute for a qualified regulatory review or submission decision.
+- Login and user-role management are not included yet.
+- Mode 2 needs MongoDB and the embedding model to be configured before it can analyse CTD documents.
+- The report helps reviewers find evidence and gaps, but it does not replace a regulatory expert's final decision.
 
 ---
 
 ## 🏅 What We're Most Proud Of
 
-The strongest part of ReguLens is its end-to-end evidence traceability: a team can move from a raw safety dataset or CTD PDF to an interpretable signal or readiness report, then inspect the supporting source evidence and prioritised gaps.
+We are most proud of the **Mode 2 CTD Readiness Analyzer**. It reads an uploaded CTD PDF, identifies its ICH sections, and compares them with official requirements. It gives the reviewer one complete workspace: an overall readiness analysis, module-wise coverage, evidence traceability, a prioritised gaps list, and a report that explains what to review next.
 
 ---
