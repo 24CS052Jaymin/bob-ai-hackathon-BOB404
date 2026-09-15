@@ -2,40 +2,39 @@
 
 ## What We Built
 
-[Describe your solution in plain language. Avoid jargon — write as if explaining to a smart colleague unfamiliar with your tech stack.]
+ReguLens is a two-mode workspace for regulatory intelligence. Mode 1 accepts FAERS-style safety data and returns prioritised potential signals; Mode 2 accepts official and applicant CTD PDFs, extracts section-aware evidence, and creates a submission-readiness report against a curated ICH requirement catalogue.
 
 ## How It Works
 
-[Explain the core mechanism step by step. A numbered list or simple flow works well here.]
+The system transforms source documents and datasets into reviewable results while preserving references to the underlying evidence.
 
-1. [Step 1: e.g., "User connects their GitHub repository via OAuth"]
-2. [Step 2: e.g., "The system ingests pipeline logs and feeds them to watsonx.ai"]
-3. [Step 3: e.g., "An anomaly score is computed and displayed on the dashboard"]
-4. [Step 4: e.g., "Alerts are sent to Slack when the score exceeds a threshold"]
+1. The user selects Mode 1 or Mode 2 and uploads the relevant source data: FAERS CSV data or CTD PDF documents.
+2. Mode 1 cleans safety data, calculates proportional reporting ratios (PRR), groups related events, and prepares ranked signal results.
+3. Mode 2 extracts page text and headings from PDFs, stores official requirements separately from user evidence, and creates section-aware chunks with embeddings.
+4. For each official requirement, Mode 2 ranks the user's evidence using semantic similarity, keyword overlap, and CTD-section alignment, then marks it as present, partial, or missing.
+5. The React application presents traceable dashboards, scores, gaps, and source-evidence references for reviewer follow-up.
 
 ## Architecture Diagram
 
 > See [`architecture.md`](architecture.md) for the detailed diagram.
 
-[Optionally include a simple ASCII or Mermaid diagram here for quick reference.]
-
-```
-[User] → [Frontend: React] → [API: FastAPI] → [watsonx.ai] → [Dashboard]
-                                    ↓
-                             [PostgreSQL DB]
+```text
+[Reviewer] → [React interface] → [FastAPI services] → [Analysis pipeline] → [Review report]
+                                      │                       │
+                                      │                       ├─ Mode 1: FAERS / PRR / clustering
+                                      │                       └─ Mode 2: CTD extraction / matching
+                                      └─ [PostgreSQL and MongoDB evidence stores]
 ```
 
 ## Key Design Decisions
 
 | Decision | Rationale |
 |---|---|
-| [e.g., Used watsonx.ai for anomaly detection] | [e.g., Pre-trained models reduced time-to-value vs. building from scratch] |
-| [Decision 2] | [Rationale 2] |
-| [Decision 3] | [Rationale 3] |
+| Separate official requirements and applicant evidence | Prevents user dossier content from changing the regulatory baseline used for assessment. |
+| Section-aware CTD chunks | Preserves the CTD heading, page, and source context needed for traceable evidence review. |
+| Hybrid evidence ranking | Combines embeddings, lexical overlap, and CTD-section context so a temporary vector-index issue does not produce an all-zero report. |
 
 ## IBM Technologies Used
 
-[Explain specifically HOW you used each IBM technology — not just that you used it.]
-
-- **[IBM Tech 1, e.g., watsonx.ai]:** [How it was used — e.g., "Used the `ibm/granite-13b-instruct-v2` model via the Python SDK to classify anomaly types from log text."]
-- **[IBM Tech 2]:** [How it was used]
+- **IBM Bob:** Used as the AI-assisted development environment for building and iterating on the ReguLens workflows, including the Mode 2 evidence-analysis improvements.
+- **IBM Docling:** Used as an structural-enrichment layer in Mode 2. It supplements PyMuPDF text extraction when processing CTD PDFs while the pipeline retains detected headings and page provenance for traceability.

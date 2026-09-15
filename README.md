@@ -1,4 +1,4 @@
-# 🚀 [Your Project Title Here]
+# 🚀 ReguLens
 
 > ⚠️ **Replace everything in `[ ]` brackets with your actual content before submission.**
 
@@ -8,10 +8,10 @@
 
 | Field | Value |
 |---|---|
-| **Team Name** | [Your Team Name]   |
-| **Track** | [AI / DevOps / Sustainability / Open] |
-| **Team Lead** | [Name] — [email@ibm.com] |
-| **Members** | [Name 1], [Name 2], [Name 3] |
+| **Team Name** | [BOB404]   |
+| **Track** | [AI / ML ] |
+| **Team Lead** | [Jaymin Mandaliya] — [24cs052@charusat.edu.in] |
+| **Members** | [Mishri Bhanwadia], [Priya Aghera], [Jenil Bhisra] |
 
 ---
 
@@ -19,7 +19,7 @@
 
 > In 2–3 sentences: What problem does your project solve? Who experiences this problem?
 
-[Describe the real-world problem your project addresses. Be specific about who the user is and what pain point they face.]
+Regulatory and pharmacovigilance teams must review large safety datasets and Common Technical Document (CTD) dossiers before they can make confident submission decisions. Manual review makes it difficult to identify safety signals, trace supporting evidence, and prioritise incomplete regulatory sections.
 
 ---
 
@@ -27,17 +27,17 @@
 
 > In 2–3 sentences: What did you build? How does it solve the problem above?
 
-[Describe your solution clearly. Explain the core mechanism — what makes it work.]
+ReguLens is a two-mode regulatory intelligence workspace. Mode 1 analyses FAERS safety data to surface and review potential signals, while Mode 2 extracts CTD evidence from PDFs and compares an applicant dossier with a curated ICH requirement catalogue to produce readiness, module, and gap reports.
 
 ---
 
 ## ✨ Key Features
 
-- **Feature 1:** [Brief description — e.g., "Real-time anomaly detection using watsonx.ai"]
-- **Feature 2:** [Brief description]
-- **Feature 3:** [Brief description]
-- **Feature 4:** [Optional]
-- **Feature 5:** [Optional]
+- **FAERS safety analysis:** Upload and analyse safety-report data, with cleaning, clustering, proportional reporting ratio (PRR) calculations, and signal review.
+- **CTD PDF ingestion:** Extract dossier text, headings, and evidence chunks from PDF files with page-level provenance.
+- **Readiness assessment:** Compare curated ICH CTD requirements against applicant evidence and classify coverage as present, partial, or missing.
+- **Traceable gap reporting:** Present overall and module-level scores, prioritised gaps, matched evidence, and recommendations.
+- **Resilient evidence retrieval:** Combine embedding similarity, CTD-section alignment, and keyword evidence so reports remain useful when a remote vector index is unavailable.
 
 ---
 
@@ -45,11 +45,11 @@
 
 | Category | Technologies |
 |---|---|
-| **Languages** | [e.g., Python, TypeScript] |
-| **Frameworks** | [e.g., FastAPI, React] |
-| **IBM Technologies** | [e.g., watsonx.ai, IBM Bob, IBM Cloud] |
-| **Databases** | [e.g., PostgreSQL, Redis] |
-| **Other** | [e.g., Docker, GitHub Actions] |
+| **Languages** | Python, TypeScript |
+| **Frameworks** | FastAPI, React, Vite |
+| **IBM Technologies** | IBM Bob, IBM Docling |
+| **Databases** | MongoDB Atlas (Mode 2), PostgreSQL (Mode 1) |
+| **Other** | SentenceTransformers, PyMuPDF, Docling, scikit-learn, GitHub Actions |
 
 ---
 
@@ -77,18 +77,25 @@
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/[your-repo].git
-cd [your-repo]
+git clone https://github.com/24CS052Jaymin/bob-ai-hackathon-BOB404.git
+cd bob-ai-hackathon-BOB404
 
 # 2. Install dependencies
-[your install command here]
+python -m pip install -r src/backend/requirements.txt
+npm install --prefix src/frontend/mode2
 
 # 3. Configure environment
-cp .env.example .env
+cp src/backend/.env.example src/backend/.env
 # Edit .env with your values
 
 # 4. Run the project
-[your run command here]
+# Terminal 1: Mode 2 API
+cd src/backend
+python main.py
+
+# Terminal 2: Mode 2 web application
+cd src/frontend/mode2
+npm run dev
 ```
 
 ---
@@ -108,14 +115,14 @@ cp .env.example .env
 
 > Be honest — judges appreciate transparency over overclaiming.
 
-- [Limitation 1: e.g., "Authentication is mocked — not production-ready"]
-- [Limitation 2: e.g., "Only tested on Chrome"]
-- [Limitation 3: e.g., "Feature X is scaffolded but not fully implemented"]
+- Login and user-role management are not included yet.
+- Mode 2 needs MongoDB and the embedding model to be configured before it can analyse CTD documents.
+- The report helps reviewers find evidence and gaps, but it does not replace a regulatory expert's final decision.
 
 ---
 
 ## 🏅 What We're Most Proud Of
 
-[Tell the judges what part of your submission is strongest and worth paying close attention to.]
+We are most proud of the **Mode 2 CTD Readiness Analyzer**. It reads an uploaded CTD PDF, identifies its ICH sections, and compares them with official requirements. It gives the reviewer one complete workspace: an overall readiness analysis, module-wise coverage, evidence traceability, a prioritised gaps list, and a report that explains what to review next.
 
 ---

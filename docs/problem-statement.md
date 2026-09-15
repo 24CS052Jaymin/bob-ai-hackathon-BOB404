@@ -2,20 +2,20 @@
 
 ## Background
 
-[Describe the broader context. What domain or industry does this problem belong to? What situation creates the problem?]
+Pharmaceutical regulatory affairs and pharmacovigilance are evidence-heavy disciplines. Teams must assess safety reports and Common Technical Document (CTD) dossiers across multiple modules before they can decide what needs investigation or whether a submission has adequate supporting evidence.
 
 ## The Problem
 
-[State the problem clearly and specifically. Avoid vague statements like "things are slow" — instead say "Operations teams spend an average of 45 minutes per incident diagnosing pipeline failures because logs are scattered across 6 different tools."]
+Safety-report review and dossier-readiness review are often performed through manual searches, spreadsheets, and separate source documents. This makes it difficult to consistently identify potential FAERS safety signals, map uploaded CTD evidence to ICH expectations, and explain why a requirement is considered covered or missing.
 
 ## Who is Affected
 
-[Describe the specific user or persona experiencing this problem. Be concrete — not "developers" but "backend engineers managing CI/CD pipelines in enterprises with 50+ microservices."]
+The primary users are pharmacovigilance analysts investigating adverse-event patterns and regulatory-affairs teams preparing or reviewing CTD submissions. Reviewers need an auditable path from a dashboard result back to the dataset record or dossier evidence that supports it.
 
 ## Why It Matters
 
-[What is the cost of this problem? Lost time? Revenue? Safety risk? Frustration? Quantify if possible.]
+Inconsistent or slow review can delay investigation of a potential safety signal and can leave a dossier team uncertain about what must be completed before filing. The risk is not only time spent reading large files; it is also reduced traceability when a reviewer cannot quickly verify the source evidence behind a conclusion.
 
 ## Why Existing Solutions Fall Short
 
-[Briefly explain what people currently do and why it doesn't fully solve the problem. This sets up why your solution is needed.]
+Existing point tools can analyse safety data or store regulatory documents, but they do not necessarily provide one workflow that turns raw input into a reviewer-friendly, traceable result. A keyword search alone is insufficient for a CTD dossier because related evidence may use different wording and must still be evaluated in the correct module and section context.
