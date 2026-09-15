@@ -10,12 +10,28 @@ const monthLabels = ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
 
 export function SignalDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { signals: allSignals, setSignals, notify } = useApp();
+  const { signals: allSignals, setSignals, notify, loading } = useApp();
   const signal = allSignals.find((s) => s.id === id) ?? allSignals[0];
   const [note, setNote] = useState('');
   const [expanded, setExpanded] = useState(true);
 
-  const months = signal.monthlyReports.map((reports, i) => ({ month: monthLabels[i], reports }));
+  // Guard: still loading or signal genuinely not found
+  if (loading || !signal) {
+    return (
+      <div className="mx-auto max-w-[1240px] animate-enter">
+        <div className="mb-5">
+          <Link href="/safety/signals" className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-teal-700">
+            <ArrowLeft size={14} /> All signals
+          </Link>
+        </div>
+        <div className="surface flex items-center justify-center p-20 text-sm text-slate-400">
+          {loading ? 'Loading signals…' : `Signal ${id} not found.`}
+        </div>
+      </div>
+    );
+  }
+
+  const months = (signal.monthlyReports ?? []).map((reports, i) => ({ month: monthLabels[i], reports }));
 
   const changeStatus = (status: SignalStatus) => {
     setSignals((prev) => prev.map((s) => (s.id === signal.id ? { ...s, status, reviewed: status === 'Closed' } : s)));

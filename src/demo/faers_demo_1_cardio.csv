@@ -1,0 +1,151 @@
+report_id,suspect_drug,reactions
+1001,warfarin,haemorrhage
+1002,warfarin,haemorrhage
+1003,warfarin,haemorrhage; epistaxis
+1004,warfarin,haemorrhage; bruising
+1005,warfarin,intracranial haemorrhage
+1006,warfarin,haemorrhage
+1007,warfarin,haemorrhage; anaemia
+1008,warfarin,haemorrhage
+1009,warfarin,epistaxis
+1010,warfarin,haemorrhage
+1011,warfarin,haemorrhage; melaena
+1012,warfarin,bruising
+1013,warfarin,haemorrhage
+1014,warfarin,intracranial haemorrhage; haemorrhage
+1015,warfarin,haemorrhage
+1016,clopidogrel,thrombocytopenia
+1017,clopidogrel,thrombocytopenia
+1018,clopidogrel,thrombocytopenia; haemorrhage
+1019,clopidogrel,thrombocytopenia
+1020,clopidogrel,haemorrhage
+1021,clopidogrel,thrombocytopenia
+1022,clopidogrel,purpura
+1023,clopidogrel,thrombocytopenia; purpura
+1024,clopidogrel,thrombocytopenia
+1025,clopidogrel,haemorrhage; thrombocytopenia
+1026,amlodipine,peripheral oedema
+1027,amlodipine,peripheral oedema
+1028,amlodipine,peripheral oedema; flushing
+1029,amlodipine,peripheral oedema
+1030,amlodipine,headache
+1031,amlodipine,peripheral oedema
+1032,amlodipine,palpitations
+1033,amlodipine,peripheral oedema; palpitations
+1034,amlodipine,peripheral oedema
+1035,amlodipine,dizziness
+1036,amlodipine,peripheral oedema
+1037,amlodipine,peripheral oedema; flushing
+1038,amlodipine,peripheral oedema
+1039,amlodipine,headache; dizziness
+1040,amlodipine,peripheral oedema
+1041,lisinopril,angioedema
+1042,lisinopril,angioedema
+1043,lisinopril,angioedema; cough
+1044,lisinopril,cough
+1045,lisinopril,angioedema
+1046,lisinopril,cough; dyspnoea
+1047,lisinopril,angioedema; dyspnoea
+1048,lisinopril,angioedema
+1049,lisinopril,cough
+1050,lisinopril,angioedema
+1051,lisinopril,hypotension
+1052,lisinopril,angioedema; hypotension
+1053,lisinopril,angioedema
+1054,lisinopril,cough; angioedema
+1055,lisinopril,angioedema
+1056,aspirin,gastrointestinal haemorrhage
+1057,aspirin,gastrointestinal haemorrhage; nausea
+1058,aspirin,gastrointestinal haemorrhage
+1059,aspirin,nausea
+1060,aspirin,gastrointestinal haemorrhage
+1061,aspirin,epigastric pain; nausea
+1062,aspirin,gastrointestinal haemorrhage
+1063,aspirin,gastrointestinal haemorrhage; vomiting
+1064,aspirin,nausea; dyspepsia
+1065,aspirin,gastrointestinal haemorrhage
+1066,metoprolol,bradycardia
+1067,metoprolol,bradycardia; fatigue
+1068,metoprolol,fatigue
+1069,metoprolol,bradycardia
+1070,metoprolol,cold extremities; bradycardia
+1071,metoprolol,bradycardia
+1072,metoprolol,fatigue; dyspnoea
+1073,metoprolol,bradycardia
+1074,metoprolol,bradycardia; hypotension
+1075,metoprolol,dizziness
+1076,digoxin,nausea
+1077,digoxin,nausea; vomiting
+1078,digoxin,cardiac arrhythmia
+1079,digoxin,nausea; visual disturbance
+1080,digoxin,cardiac arrhythmia; nausea
+1081,digoxin,visual disturbance
+1082,digoxin,nausea
+1083,digoxin,cardiac arrhythmia; bradycardia
+1084,digoxin,nausea; anorexia
+1085,digoxin,cardiac arrhythmia
+1086,furosemide,hypokalaemia
+1087,furosemide,hypokalaemia; dehydration
+1088,furosemide,dehydration
+1089,furosemide,hypokalaemia
+1090,furosemide,ototoxicity
+1091,furosemide,hypokalaemia; cramp
+1092,furosemide,hypokalaemia
+1093,furosemide,dehydration; hypotension
+1094,furosemide,hypokalaemia
+1095,furosemide,hyponatraemia
+1096,simvastatin,myopathy
+1097,simvastatin,myopathy; creatine kinase increased
+1098,simvastatin,myalgia
+1099,simvastatin,myopathy
+1100,simvastatin,rhabdomyolysis
+1101,simvastatin,myopathy; myalgia
+1102,simvastatin,myopathy
+1103,simvastatin,liver enzyme increased
+1104,simvastatin,myopathy
+1105,simvastatin,myalgia; fatigue
+1106,ramipril,cough
+1107,ramipril,cough; angioedema
+1108,ramipril,angioedema
+1109,ramipril,cough
+1110,ramipril,hypotension; dizziness
+1111,ramipril,cough
+1112,ramipril,renal impairment
+1113,ramipril,cough; dyspnoea
+1114,ramipril,cough
+1115,ramipril,angioedema; cough
+1116,atorvastatin,myalgia
+1117,atorvastatin,myalgia; fatigue
+1118,atorvastatin,rhabdomyolysis
+1119,atorvastatin,myalgia
+1120,atorvastatin,liver enzyme increased
+1121,atorvastatin,myalgia; myopathy
+1122,atorvastatin,myalgia
+1123,atorvastatin,rhabdomyolysis; myalgia
+1124,atorvastatin,myalgia
+1125,atorvastatin,diabetes mellitus
+1126,ibuprofen,gastrointestinal haemorrhage
+1127,ibuprofen,gastrointestinal haemorrhage; nausea
+1128,ibuprofen,renal impairment
+1129,ibuprofen,gastrointestinal haemorrhage
+1130,ibuprofen,nausea; dyspepsia
+1131,ibuprofen,gastrointestinal haemorrhage; ulcer
+1132,ibuprofen,gastrointestinal haemorrhage
+1133,ibuprofen,renal impairment; hypertension
+1134,ibuprofen,gastrointestinal haemorrhage
+1135,ibuprofen,nausea
+1136,background_drug_a,nausea
+1137,background_drug_a,headache
+1138,background_drug_a,fatigue
+1139,background_drug_b,dizziness
+1140,background_drug_b,rash
+1141,background_drug_c,vomiting
+1142,background_drug_c,abdominal pain
+1143,background_drug_d,insomnia
+1144,background_drug_d,anxiety
+1145,background_drug_e,dry mouth
+1146,background_drug_f,constipation
+1147,background_drug_g,diarrhoea
+1148,background_drug_h,back pain
+1149,background_drug_i,oedema
+1150,background_drug_j,palpitations

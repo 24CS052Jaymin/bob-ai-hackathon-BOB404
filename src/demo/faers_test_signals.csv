@@ -1,0 +1,251 @@
+report_id,suspect_drug,reactions
+1001,warfarin,haemorrhage
+1002,warfarin,haemorrhage
+1003,warfarin,haemorrhage; epistaxis
+1004,warfarin,haemorrhage; bruising
+1005,warfarin,haemorrhage
+1006,warfarin,haemorrhage
+1007,warfarin,haemorrhage; anaemia
+1008,warfarin,haemorrhage
+1009,warfarin,epistaxis
+1010,warfarin,haemorrhage
+1011,warfarin,haemorrhage
+1012,warfarin,haemorrhage; prothrombin time prolonged
+1013,warfarin,haemorrhage
+1014,warfarin,bruising
+1015,warfarin,haemorrhage
+1016,warfarin,haemorrhage; epistaxis
+1017,warfarin,intracranial haemorrhage
+1018,warfarin,haemorrhage
+1019,warfarin,haemorrhage
+1020,warfarin,prothrombin time prolonged
+1021,metformin,lactic acidosis
+1022,metformin,lactic acidosis
+1023,metformin,lactic acidosis; nausea
+1024,metformin,lactic acidosis
+1025,metformin,nausea
+1026,metformin,nausea; diarrhoea
+1027,metformin,diarrhoea
+1028,metformin,lactic acidosis
+1029,metformin,nausea
+1030,metformin,diarrhoea
+1031,metformin,lactic acidosis
+1032,metformin,nausea; vomiting
+1033,metformin,diarrhoea
+1034,metformin,lactic acidosis
+1035,metformin,nausea
+1036,atorvastatin,myopathy
+1037,atorvastatin,myopathy
+1038,atorvastatin,myopathy; muscle pain
+1039,atorvastatin,myopathy
+1040,atorvastatin,rhabdomyolysis
+1041,atorvastatin,muscle pain
+1042,atorvastatin,myopathy
+1043,atorvastatin,rhabdomyolysis
+1044,atorvastatin,myopathy; elevated creatine kinase
+1045,atorvastatin,muscle pain
+1046,atorvastatin,myopathy
+1047,atorvastatin,liver enzyme increased
+1048,atorvastatin,myopathy
+1049,atorvastatin,muscle pain; fatigue
+1050,atorvastatin,rhabdomyolysis
+1051,lisinopril,cough
+1052,lisinopril,cough
+1053,lisinopril,cough; angioedema
+1054,lisinopril,cough
+1055,lisinopril,angioedema
+1056,lisinopril,cough
+1057,lisinopril,hypotension
+1058,lisinopril,cough
+1059,lisinopril,cough; dizziness
+1060,lisinopril,angioedema
+1061,lisinopril,cough
+1062,lisinopril,cough
+1063,lisinopril,hyperkalaemia
+1064,lisinopril,cough
+1065,lisinopril,cough; angioedema
+1066,amoxicillin,rash
+1067,amoxicillin,rash
+1068,amoxicillin,rash; urticaria
+1069,amoxicillin,anaphylaxis
+1070,amoxicillin,rash
+1071,amoxicillin,diarrhoea
+1072,amoxicillin,rash
+1073,amoxicillin,anaphylaxis; urticaria
+1074,amoxicillin,rash
+1075,amoxicillin,diarrhoea
+1076,amoxicillin,rash
+1077,amoxicillin,anaphylaxis
+1078,amoxicillin,rash; diarrhoea
+1079,amoxicillin,urticaria
+1080,amoxicillin,rash
+1081,amlodipine,peripheral oedema
+1082,amlodipine,peripheral oedema
+1083,amlodipine,peripheral oedema; flushing
+1084,amlodipine,peripheral oedema
+1085,amlodipine,flushing
+1086,amlodipine,peripheral oedema
+1087,amlodipine,headache
+1088,amlodipine,peripheral oedema
+1089,amlodipine,peripheral oedema; dizziness
+1090,amlodipine,flushing
+1091,amlodipine,peripheral oedema
+1092,amlodipine,peripheral oedema
+1093,metoprolol,bradycardia
+1094,metoprolol,bradycardia
+1095,metoprolol,bradycardia; fatigue
+1096,metoprolol,bradycardia
+1097,metoprolol,fatigue
+1098,metoprolol,bradycardia
+1099,metoprolol,dizziness
+1100,metoprolol,bradycardia; hypotension
+1101,metoprolol,bradycardia
+1102,metoprolol,fatigue; dizziness
+1103,metoprolol,bradycardia
+1104,clopidogrel,bleeding
+1105,clopidogrel,bleeding
+1106,clopidogrel,bleeding; bruising
+1107,clopidogrel,bleeding
+1108,clopidogrel,thrombocytopenia
+1109,clopidogrel,bleeding
+1110,clopidogrel,bruising
+1111,clopidogrel,bleeding; gastrointestinal haemorrhage
+1112,clopidogrel,bleeding
+1113,clopidogrel,thrombocytopenia
+1114,clopidogrel,bleeding
+1115,omeprazole,headache
+1116,omeprazole,nausea
+1117,omeprazole,headache; diarrhoea
+1118,omeprazole,nausea
+1119,omeprazole,diarrhoea
+1120,omeprazole,headache
+1121,omeprazole,hypomagnesaemia
+1122,omeprazole,nausea; headache
+1123,omeprazole,hypomagnesaemia
+1124,omeprazole,diarrhoea
+1125,omeprazole,headache
+1126,ibuprofen,gastrointestinal haemorrhage
+1127,ibuprofen,gastrointestinal haemorrhage
+1128,ibuprofen,gastrointestinal haemorrhage; nausea
+1129,ibuprofen,gastrointestinal haemorrhage
+1130,ibuprofen,renal failure
+1131,ibuprofen,gastrointestinal haemorrhage
+1132,ibuprofen,nausea
+1133,ibuprofen,gastrointestinal haemorrhage; renal failure
+1134,ibuprofen,gastrointestinal haemorrhage
+1135,ibuprofen,renal failure
+1136,ibuprofen,gastrointestinal haemorrhage
+1137,paracetamol,liver failure
+1138,paracetamol,liver failure
+1139,paracetamol,liver failure; nausea
+1140,paracetamol,liver failure
+1141,paracetamol,nausea
+1142,paracetamol,liver failure
+1143,paracetamol,liver failure; vomiting
+1144,paracetamol,liver failure
+1145,paracetamol,nausea; vomiting
+1146,paracetamol,liver failure
+1147,sertraline,insomnia
+1148,sertraline,insomnia; nausea
+1149,sertraline,insomnia
+1150,sertraline,sexual dysfunction
+1151,sertraline,nausea
+1152,sertraline,insomnia
+1153,sertraline,sexual dysfunction; insomnia
+1154,sertraline,nausea
+1155,sertraline,insomnia
+1156,sertraline,sexual dysfunction
+1157,gabapentin,somnolence
+1158,gabapentin,somnolence
+1159,gabapentin,somnolence; dizziness
+1160,gabapentin,somnolence
+1161,gabapentin,dizziness
+1162,gabapentin,somnolence
+1163,gabapentin,ataxia
+1164,gabapentin,somnolence; ataxia
+1165,gabapentin,dizziness
+1166,gabapentin,somnolence
+1167,allopurinol,rash
+1168,allopurinol,rash
+1169,allopurinol,steven johnson syndrome
+1170,allopurinol,rash; steven johnson syndrome
+1171,allopurinol,rash
+1172,allopurinol,hepatitis
+1173,allopurinol,rash
+1174,allopurinol,steven johnson syndrome
+1175,allopurinol,rash
+1176,furosemide,hypokalaemia
+1177,furosemide,hypokalaemia
+1178,furosemide,hypokalaemia; dehydration
+1179,furosemide,hypokalaemia
+1180,furosemide,dehydration
+1181,furosemide,hypokalaemia
+1182,furosemide,hypokalaemia; hyponatraemia
+1183,furosemide,dehydration
+1184,furosemide,hypokalaemia
+1185,aspirin,gastrointestinal haemorrhage
+1186,aspirin,gastrointestinal haemorrhage
+1187,aspirin,gastrointestinal haemorrhage; nausea
+1188,aspirin,gastrointestinal haemorrhage
+1189,aspirin,tinnitus
+1190,aspirin,gastrointestinal haemorrhage
+1191,aspirin,tinnitus; headache
+1192,aspirin,gastrointestinal haemorrhage
+1193,aspirin,nausea
+1194,aspirin,gastrointestinal haemorrhage
+1195,digoxin,nausea
+1196,digoxin,nausea; vomiting
+1197,digoxin,bradycardia
+1198,digoxin,nausea
+1199,digoxin,bradycardia; visual disturbance
+1200,digoxin,visual disturbance
+1201,digoxin,nausea
+1202,digoxin,bradycardia
+1203,digoxin,nausea; bradycardia
+1204,carbamazepine,dizziness
+1205,carbamazepine,dizziness; somnolence
+1206,carbamazepine,steven johnson syndrome
+1207,carbamazepine,dizziness
+1208,carbamazepine,hyponatraemia
+1209,carbamazepine,dizziness
+1210,carbamazepine,steven johnson syndrome
+1211,carbamazepine,somnolence
+1212,carbamazepine,dizziness; hyponatraemia
+1213,captopril,cough
+1214,captopril,cough
+1215,captopril,cough; angioedema
+1216,captopril,cough
+1217,captopril,angioedema
+1218,captopril,cough
+1219,captopril,hyperkalaemia
+1220,captopril,cough
+1221,simvastatin,myopathy
+1222,simvastatin,myopathy
+1223,simvastatin,muscle pain; myopathy
+1224,simvastatin,rhabdomyolysis
+1225,simvastatin,myopathy
+1226,simvastatin,liver enzyme increased
+1227,simvastatin,myopathy
+1228,simvastatin,rhabdomyolysis
+1229,haloperidol,tardive dyskinesia
+1230,haloperidol,tardive dyskinesia
+1231,haloperidol,extrapyramidal disorder
+1232,haloperidol,tardive dyskinesia; extrapyramidal disorder
+1233,haloperidol,tardive dyskinesia
+1234,haloperidol,somnolence
+1235,haloperidol,tardive dyskinesia
+1236,clozapine,agranulocytosis
+1237,clozapine,agranulocytosis
+1238,clozapine,agranulocytosis; neutropenia
+1239,clozapine,agranulocytosis
+1240,clozapine,neutropenia
+1241,clozapine,agranulocytosis
+1242,clozapine,weight gain
+1243,clozapine,agranulocytosis
+1244,heparin,heparin induced thrombocytopenia
+1245,heparin,heparin induced thrombocytopenia
+1246,heparin,heparin induced thrombocytopenia; thrombocytopenia
+1247,heparin,heparin induced thrombocytopenia
+1248,heparin,thrombocytopenia
+1249,heparin,haemorrhage
+1250,heparin,heparin induced thrombocytopenia

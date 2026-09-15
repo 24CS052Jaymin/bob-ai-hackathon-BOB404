@@ -1,0 +1,141 @@
+report_id,suspect_drug,reactions
+3001,amoxicillin,anaphylaxis
+3002,amoxicillin,anaphylaxis
+3003,amoxicillin,anaphylaxis; urticaria
+3004,amoxicillin,rash
+3005,amoxicillin,anaphylaxis
+3006,amoxicillin,anaphylaxis; angioedema
+3007,amoxicillin,urticaria
+3008,amoxicillin,anaphylaxis
+3009,amoxicillin,anaphylaxis; dyspnoea
+3010,amoxicillin,diarrhoea
+3011,amoxicillin,anaphylaxis
+3012,amoxicillin,rash; pruritus
+3013,amoxicillin,anaphylaxis
+3014,amoxicillin,anaphylaxis; hypotension
+3015,amoxicillin,nausea
+3016,ciprofloxacin,tendon rupture
+3017,ciprofloxacin,tendon rupture
+3018,ciprofloxacin,tendon rupture; tendinopathy
+3019,ciprofloxacin,nausea
+3020,ciprofloxacin,tendon rupture
+3021,ciprofloxacin,peripheral neuropathy
+3022,ciprofloxacin,tendon rupture; myalgia
+3023,ciprofloxacin,tendon rupture
+3024,ciprofloxacin,qt prolongation
+3025,ciprofloxacin,tendon rupture; peripheral neuropathy
+3026,ciprofloxacin,tendon rupture
+3027,ciprofloxacin,photosensitivity
+3028,ciprofloxacin,tendon rupture
+3029,ciprofloxacin,nausea; diarrhoea
+3030,ciprofloxacin,tendon rupture
+3031,vancomycin,red man syndrome
+3032,vancomycin,red man syndrome
+3033,vancomycin,nephrotoxicity
+3034,vancomycin,red man syndrome; pruritus
+3035,vancomycin,ototoxicity
+3036,vancomycin,red man syndrome
+3037,vancomycin,nephrotoxicity; renal failure
+3038,vancomycin,red man syndrome
+3039,vancomycin,red man syndrome; flushing
+3040,vancomycin,nephrotoxicity
+3041,vancomycin,red man syndrome
+3042,vancomycin,thrombophlebitis
+3043,vancomycin,red man syndrome
+3044,vancomycin,nephrotoxicity; ototoxicity
+3045,vancomycin,red man syndrome
+3046,fluconazole,hepatotoxicity
+3047,fluconazole,hepatotoxicity
+3048,fluconazole,hepatotoxicity; nausea
+3049,fluconazole,qt prolongation
+3050,fluconazole,hepatotoxicity
+3051,fluconazole,qt prolongation; cardiac arrhythmia
+3052,fluconazole,hepatotoxicity
+3053,fluconazole,rash; pruritus
+3054,fluconazole,hepatotoxicity
+3055,fluconazole,hepatotoxicity; jaundice
+3056,trimethoprim,hyperkalaemia
+3057,trimethoprim,hyperkalaemia
+3058,trimethoprim,hyperkalaemia; renal impairment
+3059,trimethoprim,rash
+3060,trimethoprim,hyperkalaemia
+3061,trimethoprim,blood dyscrasia
+3062,trimethoprim,hyperkalaemia; nausea
+3063,trimethoprim,hyperkalaemia
+3064,trimethoprim,renal impairment
+3065,trimethoprim,hyperkalaemia
+3066,azithromycin,qt prolongation
+3067,azithromycin,qt prolongation
+3068,azithromycin,qt prolongation; cardiac arrhythmia
+3069,azithromycin,nausea; diarrhoea
+3070,azithromycin,qt prolongation
+3071,azithromycin,qt prolongation; torsades de pointes
+3072,azithromycin,qt prolongation
+3073,azithromycin,cardiac arrhythmia
+3074,azithromycin,qt prolongation; palpitations
+3075,azithromycin,qt prolongation
+3076,clindamycin,clostridioides difficile infection
+3077,clindamycin,clostridioides difficile infection
+3078,clindamycin,clostridioides difficile infection; diarrhoea
+3079,clindamycin,diarrhoea
+3080,clindamycin,clostridioides difficile infection
+3081,clindamycin,clostridioides difficile infection; colitis
+3082,clindamycin,clostridioides difficile infection
+3083,clindamycin,nausea; vomiting
+3084,clindamycin,clostridioides difficile infection
+3085,clindamycin,clostridioides difficile infection; abdominal pain
+3086,nitrofurantoin,pulmonary toxicity
+3087,nitrofurantoin,pulmonary toxicity
+3088,nitrofurantoin,pulmonary toxicity; dyspnoea
+3089,nitrofurantoin,nausea
+3090,nitrofurantoin,pulmonary toxicity
+3091,nitrofurantoin,hepatotoxicity; pulmonary toxicity
+3092,nitrofurantoin,pulmonary toxicity
+3093,nitrofurantoin,peripheral neuropathy
+3094,nitrofurantoin,pulmonary toxicity
+3095,nitrofurantoin,pulmonary toxicity; interstitial lung disease
+3096,doxycycline,photosensitivity
+3097,doxycycline,photosensitivity
+3098,doxycycline,photosensitivity; rash
+3099,doxycycline,nausea; oesophageal irritation
+3100,doxycycline,photosensitivity
+3101,doxycycline,oesophageal ulcer
+3102,doxycycline,photosensitivity; urticaria
+3103,doxycycline,photosensitivity
+3104,doxycycline,intracranial hypertension
+3105,doxycycline,photosensitivity
+3106,rifampicin,hepatotoxicity
+3107,rifampicin,hepatotoxicity
+3108,rifampicin,hepatotoxicity; jaundice
+3109,rifampicin,orange discolouration of body fluids
+3110,rifampicin,hepatotoxicity
+3111,rifampicin,drug interaction; hepatotoxicity
+3112,rifampicin,hepatotoxicity
+3113,rifampicin,thrombocytopenia
+3114,rifampicin,hepatotoxicity
+3115,rifampicin,hepatotoxicity; fever
+3116,background_drug_a,nausea
+3117,background_drug_a,headache
+3118,background_drug_b,fatigue; dizziness
+3119,background_drug_c,rash
+3120,background_drug_d,vomiting
+3121,background_drug_e,abdominal pain
+3122,background_drug_f,insomnia
+3123,background_drug_g,anxiety
+3124,background_drug_h,dry mouth
+3125,background_drug_i,constipation
+3126,background_drug_j,diarrhoea
+3127,background_drug_k,back pain
+3128,background_drug_l,oedema
+3129,background_drug_m,palpitations
+3130,background_drug_n,cough
+3131,background_drug_o,weight gain
+3132,background_drug_p,fatigue
+3133,background_drug_q,headache; dizziness
+3134,background_drug_r,nausea; vomiting
+3135,background_drug_s,skin rash; pruritus
+3136,background_drug_t,tremor
+3137,background_drug_u,blurred vision
+3138,background_drug_v,tinnitus
+3139,background_drug_w,arthralgia
+3140,background_drug_x,myalgia

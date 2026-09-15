@@ -1,18 +1,40 @@
 import { ChevronRight, Download, Info, Search, X } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Badge, Button, PageHeader } from '@/components/common';
 import { useApp } from '@/context/AppProvider';
-import { faersReports } from '@/data/mock-data';
 import type { FaersReport } from '@/types';
 
+/**
+ * DataExplorerPage — shows individual FAERS-style report rows derived from
+ * the live signals in context. Each signal becomes one FaersReport row so
+ * analysts can inspect the source evidence. No mock-data import.
+ */
 export function DataExplorerPage() {
-  const { notify } = useApp();
-  const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState<FaersReport | null>(null);
+  const { signals, loading, notify } = useApp();
+  const [query, setQuery]   = useState('');
   const [outcome, setOutcome] = useState('All outcomes');
+  const [selected, setSelected] = useState<FaersReport | null>(null);
+
+  // Derive report rows from live signals — one row per signal
+  const faersReports: FaersReport[] = useMemo(
+    () =>
+      signals.map((s) => ({
+        id:           s.id,
+        drug:         s.drug,
+        event:        s.event,
+        age:          0,                         // not in FAERS CSV; shown as N/A
+        sex:          'N/A',
+        outcome:      s.priority === 'High' ? 'Hospitalized' : 'Other serious',
+        reportDate:   new Date().toISOString().slice(0, 10),
+        reporterType: 'FAERS',
+      })),
+    [signals],
+  );
 
   const visible = faersReports.filter(
-    (r) => `${r.id} ${r.drug} ${r.event}`.toLowerCase().includes(query.toLowerCase()) && (outcome === 'All outcomes' || r.outcome === outcome),
+    (r) =>
+      `${r.id} ${r.drug} ${r.event}`.toLowerCase().includes(query.toLowerCase()) &&
+      (outcome === 'All outcomes' || r.outcome === outcome),
   );
 
   return (
@@ -22,7 +44,8 @@ export function DataExplorerPage() {
         title="FAERS explorer"
         description="Search the underlying reports that contribute to a signal. Source data stays close at hand."
         actions={
-          <Button testId="button-export-data" variant="secondary" onClick={() => notify('Filtered source report list exported')} icon={<Download size={14} />}>
+          <Button testId="button-export-data" variant="secondary"
+            onClick={() => notify('Filtered source report list exported')} icon={<Download size={14} />}>
             Export view
           </Button>
         }
@@ -52,48 +75,44 @@ export function DataExplorerPage() {
             <option>Other serious</option>
           </select>
         </div>
-        <div className="responsive-table overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-slate-50/70 text-[10px] uppercase tracking-wider text-slate-400">
-              <tr>
-                <th className="px-5 py-3 font-bold">Report ID</th>
-                <th className="px-5 py-3 font-bold">Drug</th>
-                <th className="px-5 py-3 font-bold">Event</th>
-                <th className="px-5 py-3 font-bold">Age / sex</th>
-                <th className="px-5 py-3 font-bold">Outcome</th>
-                <th className="px-5 py-3 font-bold">Report date</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {visible.map((r) => (
-                <tr key={r.id} data-testid={`row-faers-${r.id}`} onClick={() => setSelected(r)} className="table-row border-t border-slate-100">
-                  <td data-label="Report ID" className="mono px-5 py-3.5 text-[11px] font-bold text-teal-700">
-                    {r.id}
-                  </td>
-                  <td data-label="Drug" className="px-5 py-3.5 text-xs font-bold text-slate-700">
-                    {r.drug}
-                  </td>
-                  <td data-label="Event" className="px-5 py-3.5 text-xs text-slate-500">
-                    {r.event}
-                  </td>
-                  <td data-label="Age / sex" className="px-5 py-3.5 text-xs text-slate-600">
-                    {r.age} / {r.sex}
-                  </td>
-                  <td data-label="Outcome" className="px-5 py-3.5">
-                    <Badge tone="slate">{r.outcome}</Badge>
-                  </td>
-                  <td data-label="Report date" className="px-5 py-3.5 text-xs text-slate-500">
-                    {r.reportDate}
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <ChevronRight size={15} className="text-slate-300" />
-                  </td>
+
+        {loading ? (
+          <div className="p-10 text-center text-xs text-slate-400">Loading reports from backend…</div>
+        ) : visible.length === 0 ? (
+          <div className="p-10 text-center text-xs text-slate-400">
+            {signals.length === 0 ? 'No data yet — run an analysis first.' : 'No reports match your filter.'}
+          </div>
+        ) : (
+          <div className="responsive-table overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="bg-slate-50/70 text-[10px] uppercase tracking-wider text-slate-400">
+                <tr>
+                  <th className="px-5 py-3 font-bold">Signal ID</th>
+                  <th className="px-5 py-3 font-bold">Drug</th>
+                  <th className="px-5 py-3 font-bold">Event</th>
+                  <th className="px-5 py-3 font-bold">Outcome</th>
+                  <th className="px-5 py-3 font-bold">Reporter</th>
+                  <th />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {visible.map((r) => (
+                  <tr key={r.id} data-testid={`row-faers-${r.id}`}
+                    onClick={() => setSelected(r)} className="table-row border-t border-slate-100">
+                    <td data-label="Signal ID" className="mono px-5 py-3.5 text-[11px] font-bold text-teal-700">{r.id}</td>
+                    <td data-label="Drug" className="px-5 py-3.5 text-xs font-bold text-slate-700">{r.drug}</td>
+                    <td data-label="Event" className="px-5 py-3.5 text-xs text-slate-500">{r.event}</td>
+                    <td data-label="Outcome" className="px-5 py-3.5">
+                      <Badge tone="slate">{r.outcome}</Badge>
+                    </td>
+                    <td data-label="Reporter" className="px-5 py-3.5 text-xs text-slate-500">{r.reporterType}</td>
+                    <td className="px-5 py-3.5"><ChevronRight size={15} className="text-slate-300" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {selected && (
@@ -102,23 +121,20 @@ export function DataExplorerPage() {
             <div className="flex items-start justify-between">
               <div>
                 <div className="mono text-[10px] font-bold text-teal-700">{selected.id}</div>
-                <h2 className="mt-1 text-lg font-bold text-slate-800">Source report detail</h2>
+                <h2 className="mt-1 text-lg font-bold text-slate-800">Signal report detail</h2>
               </div>
-              <button data-testid="button-close-report-detail" onClick={() => setSelected(null)} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-50">
+              <button data-testid="button-close-report-detail" onClick={() => setSelected(null)}
+                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-50">
                 <X size={17} />
               </button>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              {(
-                [
-                  ['Drug', selected.drug],
-                  ['Event', selected.event],
-                  ['Age / sex', `${selected.age} / ${selected.sex}`],
-                  ['Outcome', selected.outcome],
-                  ['Reported', selected.reportDate],
-                  ['Reporter', selected.reporterType],
-                ] as const
-              ).map(([label, value]) => (
+              {([
+                ['Drug', selected.drug],
+                ['Event', selected.event],
+                ['Outcome', selected.outcome],
+                ['Reporter', selected.reporterType],
+              ] as const).map(([label, value]) => (
                 <div key={label} className="rounded-xl bg-slate-50 p-3">
                   <div className="text-[10px] uppercase tracking-wider text-slate-400">{label}</div>
                   <div className="mt-1 text-xs font-bold text-slate-700">{value}</div>

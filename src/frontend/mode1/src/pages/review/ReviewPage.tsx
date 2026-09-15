@@ -1,23 +1,94 @@
 import { Check, ClipboardCheck, RefreshCw } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'wouter';
 import { Badge, Button, PageHeader } from '@/components/common';
 import { useApp } from '@/context/AppProvider';
-import { reviewItems as initialReviewItems } from '@/data/mock-data';
+import type { ReviewItem } from '@/types';
 
 const tabs = ['Open', 'Completed', 'All'] as const;
 
+// localStorage key for persisting reviewed signal IDs
+const LS_KEY = 'review_completed_ids';
+
+function loadCompletedIds(): Set<string> {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return new Set();
+    return new Set(JSON.parse(raw) as string[]);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveCompletedIds(ids: Set<string>) {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify([...ids]));
+  } catch {
+    // ignore storage errors
+  }
+}
+
 export function ReviewPage() {
-  const { notify } = useApp();
-  const [items, setItems] = useState(initialReviewItems);
+  const { signals, notify } = useApp();
+
+  // Load persisted completed IDs from localStorage on first render
+  const [completedIds, setCompletedIds] = useState<Set<string>>(() => loadCompletedIds());
+
+  const initialItems = useMemo<ReviewItem[]>(() =>
+    signals
+      .filter((s) => s.priority === 'High' || s.priority === 'Medium')
+      .slice(0, 50)
+      .map((s, i) => ({
+        id: `REV-${String(i + 1).padStart(3, '0')}`,
+        signalId: s.id,
+        drug: s.drug,
+        event: s.event,
+        priority: s.priority,
+        assigned: i % 2 === 0 ? 'Dr. A. Patel' : 'Dr. S. Kim',
+        due: new Date(Date.now() + (7 + i) * 86_400_000).toISOString().slice(0, 10),
+        note: '',
+        reviewed: s.reviewed,
+      })),
+  [signals]);
+
+  // Merge persisted completedIds into displayItems so status survives navigation
+  const displayItems = useMemo<ReviewItem[]>(() =>
+    initialItems.map((item) => ({
+      ...item,
+      reviewed: completedIds.has(item.id) ? true : item.reviewed,
+    })),
+  [initialItems, completedIds]);
+
+  const [notes, setNotes] = useState<Record<string, string>>(() => {
+    try {
+      const raw = localStorage.getItem('review_notes');
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  });
+
   const [tab, setTab] = useState<(typeof tabs)[number]>('Open');
   const [noteId, setNoteId] = useState<string | null>(null);
 
-  const visible = items.filter((i) => (tab === 'Open' ? !i.reviewed : tab === 'Completed' ? i.reviewed : true));
+  const visible = displayItems.map((i) => ({ ...i, note: notes[i.id] ?? i.note }))
+    .filter((i) => (tab === 'Open' ? !i.reviewed : tab === 'Completed' ? i.reviewed : true));
 
   const action = (id: string, reviewed: boolean) => {
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, reviewed } : i)));
-    notify(reviewed ? 'Review completed' : 'Review reopened');
+    setCompletedIds((prev) => {
+      const next = new Set(prev);
+      if (reviewed) next.add(id);
+      else next.delete(id);
+      saveCompletedIds(next);   // ← persist to localStorage immediately
+      return next;
+    });
+    notify(reviewed ? '✅ Review completed — saved' : 'Review reopened');
+  };
+
+  const saveNote = (id: string, note: string) => {
+    setNotes((prev) => {
+      const next = { ...prev, [id]: note };
+      try { localStorage.setItem('review_notes', JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
   };
 
   return (
@@ -43,7 +114,11 @@ export function ReviewPage() {
           >
             {t}
             <span className="ml-2 text-[10px] opacity-60">
-              {t === 'Open' ? items.filter((i) => !i.reviewed).length : t === 'Completed' ? items.filter((i) => i.reviewed).length : items.length}
+              {t === 'Open'
+                ? displayItems.filter((i) => !i.reviewed).length
+                : t === 'Completed'
+                  ? displayItems.filter((i) => i.reviewed).length
+                  : displayItems.length}
             </span>
           </button>
         ))}
@@ -87,7 +162,7 @@ export function ReviewPage() {
                         data-testid={`input-review-note-${item.id}`}
                         defaultValue={item.note}
                         onBlur={(e) => {
-                          setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, note: e.target.value } : i)));
+                          saveNote(item.id, e.target.value);
                           setNoteId(null);
                         }}
                         className="w-full rounded-lg border border-teal-300 px-2 py-1.5 text-xs"
@@ -124,3 +199,4 @@ export function ReviewPage() {
     </div>
   );
 }
+

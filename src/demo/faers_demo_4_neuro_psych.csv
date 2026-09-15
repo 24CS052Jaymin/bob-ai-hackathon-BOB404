@@ -1,0 +1,131 @@
+report_id,suspect_drug,reactions
+4001,fluoxetine,suicidal ideation
+4002,fluoxetine,suicidal ideation
+4003,fluoxetine,suicidal ideation; self-harm
+4004,fluoxetine,insomnia; agitation
+4005,fluoxetine,suicidal ideation
+4006,fluoxetine,serotonin syndrome
+4007,fluoxetine,suicidal ideation; depression worsening
+4008,fluoxetine,suicidal ideation
+4009,fluoxetine,hyponatraemia
+4010,fluoxetine,suicidal ideation
+4011,fluoxetine,suicidal ideation; anxiety
+4012,fluoxetine,sexual dysfunction
+4013,fluoxetine,suicidal ideation
+4014,fluoxetine,serotonin syndrome; fever
+4015,fluoxetine,suicidal ideation
+4016,clozapine,agranulocytosis
+4017,clozapine,agranulocytosis
+4018,clozapine,agranulocytosis; neutropenia
+4019,clozapine,myocarditis
+4020,clozapine,agranulocytosis
+4021,clozapine,agranulocytosis; fever
+4022,clozapine,myocarditis; pericarditis
+4023,clozapine,agranulocytosis
+4024,clozapine,seizure
+4025,clozapine,agranulocytosis
+4026,clozapine,agranulocytosis; infection
+4027,clozapine,myocarditis
+4028,clozapine,agranulocytosis
+4029,clozapine,weight gain; metabolic syndrome
+4030,clozapine,agranulocytosis
+4031,haloperidol,tardive dyskinesia
+4032,haloperidol,tardive dyskinesia
+4033,haloperidol,tardive dyskinesia; extrapyramidal symptoms
+4034,haloperidol,neuroleptic malignant syndrome
+4035,haloperidol,tardive dyskinesia
+4036,haloperidol,tardive dyskinesia; akathisia
+4037,haloperidol,qt prolongation
+4038,haloperidol,tardive dyskinesia
+4039,haloperidol,neuroleptic malignant syndrome; hyperthermia
+4040,haloperidol,tardive dyskinesia
+4041,haloperidol,extrapyramidal symptoms
+4042,haloperidol,tardive dyskinesia; oculogyric crisis
+4043,haloperidol,tardive dyskinesia
+4044,haloperidol,qt prolongation; torsades de pointes
+4045,haloperidol,tardive dyskinesia
+4046,lithium,nephrogenic diabetes insipidus
+4047,lithium,nephrogenic diabetes insipidus
+4048,lithium,nephrogenic diabetes insipidus; polyuria
+4049,lithium,tremor
+4050,lithium,nephrogenic diabetes insipidus
+4051,lithium,hypothyroidism; nephrogenic diabetes insipidus
+4052,lithium,nephrogenic diabetes insipidus
+4053,lithium,lithium toxicity; nausea
+4054,lithium,nephrogenic diabetes insipidus
+4055,lithium,tremor; cognitive impairment
+4056,valproate,hepatotoxicity
+4057,valproate,hepatotoxicity
+4058,valproate,hepatotoxicity; liver failure
+4059,valproate,teratogenicity
+4060,valproate,hepatotoxicity
+4061,valproate,pancreatitis; hepatotoxicity
+4062,valproate,hepatotoxicity
+4063,valproate,weight gain; hair loss
+4064,valproate,hepatotoxicity
+4065,valproate,hepatotoxicity; thrombocytopenia
+4066,carbamazepine,steven-johnson syndrome
+4067,carbamazepine,steven-johnson syndrome
+4068,carbamazepine,steven-johnson syndrome; toxic epidermal necrolysis
+4069,carbamazepine,hyponatraemia
+4070,carbamazepine,steven-johnson syndrome
+4071,carbamazepine,steven-johnson syndrome; rash
+4072,carbamazepine,diplopia; dizziness
+4073,carbamazepine,steven-johnson syndrome
+4074,carbamazepine,aplastic anaemia
+4075,carbamazepine,steven-johnson syndrome
+4076,olanzapine,metabolic syndrome
+4077,olanzapine,metabolic syndrome
+4078,olanzapine,metabolic syndrome; weight gain
+4079,olanzapine,hyperglycaemia
+4080,olanzapine,metabolic syndrome
+4081,olanzapine,metabolic syndrome; dyslipidaemia
+4082,olanzapine,metabolic syndrome
+4083,olanzapine,tardive dyskinesia
+4084,olanzapine,metabolic syndrome
+4085,olanzapine,metabolic syndrome; diabetes mellitus
+4086,sertraline,hyponatraemia
+4087,sertraline,hyponatraemia
+4088,sertraline,hyponatraemia; confusion
+4089,sertraline,sexual dysfunction
+4090,sertraline,hyponatraemia
+4091,sertraline,serotonin syndrome; hyponatraemia
+4092,sertraline,hyponatraemia
+4093,sertraline,suicidal ideation
+4094,sertraline,hyponatraemia
+4095,sertraline,hyponatraemia; falls
+4096,donepezil,nausea
+4097,donepezil,nausea; vomiting
+4098,donepezil,bradycardia
+4099,donepezil,nausea; diarrhoea
+4100,donepezil,bradycardia; syncope
+4101,donepezil,nausea
+4102,donepezil,insomnia; vivid dreams
+4103,donepezil,nausea
+4104,donepezil,muscle cramps
+4105,donepezil,nausea; anorexia
+4106,background_drug_a,nausea
+4107,background_drug_a,headache
+4108,background_drug_b,fatigue
+4109,background_drug_c,dizziness
+4110,background_drug_d,rash
+4111,background_drug_e,vomiting
+4112,background_drug_f,abdominal pain
+4113,background_drug_g,insomnia
+4114,background_drug_h,anxiety
+4115,background_drug_i,dry mouth
+4116,background_drug_j,constipation
+4117,background_drug_k,diarrhoea
+4118,background_drug_l,back pain
+4119,background_drug_m,oedema
+4120,background_drug_n,palpitations
+4121,background_drug_o,cough
+4122,background_drug_p,weight gain
+4123,background_drug_q,tremor
+4124,background_drug_r,blurred vision
+4125,background_drug_s,tinnitus
+4126,,nausea
+4127,background_drug_u,
+4128,background_drug_v,fatigue; headache; nausea; dizziness; rash
+4129,background_drug_w,oedema
+4130,background_drug_x,myalgia
