@@ -1,40 +1,63 @@
 from __future__ import annotations
 
-import logging
+import re
 from pathlib import Path
 
-import fitz
+import pymupdf
 
-from .models import Page
+from .models import Page, Section
 
-logger = logging.getLogger(__name__)
+_HEADING = re.compile(r"^\s*((?:[A-Za-z0-9]+\.){1,6}[A-Za-z0-9]+|[IVX]+(?:\.[IVX]+)?)\s+(.{2,180})\s*$")
 
 
-class PdfExtractor:
-    """PyMuPDF is authoritative for page provenance; Docling enriches tables when installed."""
+def extract_pages(path: Path) -> list[Page]:
+    pages: list[Page] = []
+    with pymupdf.open(path) as document:
+        for index, page in enumerate(document, start=1):
+            text = page.get_text("text").strip()
+            tables: list[str] = []
+            pages.append(Page(number=index, text=text, tables=tables))
+    return pages
 
-    def extract(self, pdf_path: Path) -> list[Page]:
-        with fitz.open(pdf_path) as document:
-            pages = [
-                Page(number=index + 1, text=page.get_text("text"), tables=[])
-                for index, page in enumerate(document)
-            ]
-        self._enrich_tables_with_docling(pdf_path, pages)
-        return pages
 
-    def _enrich_tables_with_docling(self, pdf_path: Path, pages: list[Page]) -> None:
-        try:
-            from docling.document_converter import DocumentConverter
-        except ImportError:
-            logger.info("Docling not installed; retaining PyMuPDF page text and provenance.")
-            return
-        try:
-            result = DocumentConverter().convert(str(pdf_path))
-            markdown = result.document.export_to_markdown()
-            # Docling does not guarantee stable page attribution across versions. Keep it as
-            # document-level supplemental evidence rather than inventing a page reference.
-            tables = [block.strip() for block in markdown.split("\n\n") if "|" in block and len(block) > 20]
-            if tables and pages:
-                pages[0].tables.extend(f"Table (Docling; page attribution unavailable):\n{table}" for table in tables)
-        except Exception:  # Structural enrichment must never make provenance extraction fail.
-            logger.exception("Docling table enrichment failed for %s; continuing with PyMuPDF.", pdf_path.name)
+def _heading_level(number: str) -> int:
+    return len([part for part in number.split(".") if part])
+
+
+def detect_sections(pages: list[Page]) -> list[Section]:
+    sections: list[Section] = []
+    parents: dict[int, str] = {}
+    for page in pages:
+        for line in page.text.splitlines():
+            match = _HEADING.match(line.strip())
+            if not match:
+                continue
+            number, title = match.groups()
+            level = _heading_level(number)
+            parents[level] = number
+            parent = parents.get(level - 1)
+            sections.append(Section(number, title.strip(), parent, level, line.strip(), page.number))
+    return sections
+
+
+def section_for_page(sections: list[Section], page: int) -> Section | None:
+    candidates = [section for section in sections if section.page <= page]
+    return candidates[-1] if candidates else None
+
+
+def structure_with_docling(path: Path, pages: list[Page], sections: list[Section]) -> list[Section]:
+    """Use Docling when installed; keep PyMuPDF headings as the provenance fallback.
+
+    Docling's output schema changes between releases, so this adapter only enriches
+    when a document title is available and never fabricates CTD section numbers.
+    """
+    try:
+        from docling.document_converter import DocumentConverter  # type: ignore
+
+        result = DocumentConverter().convert(str(path))
+        title = getattr(getattr(result, "document", None), "name", None)
+        if title and sections:
+            sections[0].source_heading = f"{title}: {sections[0].source_heading}"
+    except (ImportError, RuntimeError, AttributeError):
+        pass
+    return sections

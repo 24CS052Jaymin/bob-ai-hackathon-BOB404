@@ -1,50 +1,77 @@
 from __future__ import annotations
 
+import hashlib
 import re
-from collections.abc import Iterable
+from datetime import datetime, timezone
 
-from .models import Section
-
-
-def _paragraphs(text: str) -> list[str]:
-    return [item.strip() for item in re.split(r"\n\s*\n+", text) if item.strip()]
+from .models import EvidenceChunk, Page, Section
+from .extraction import section_for_page
 
 
-def _sentences(text: str) -> list[str]:
-    return [item.strip() for item in re.split(r"(?<=[.!?])\s+", text) if item.strip()]
+def _module(section_number: str | None) -> str | None:
+    if not section_number:
+        return None
+    first = section_number.split(".", 1)[0]
+    return f"Module {first}" if first.isdigit() and 1 <= int(first) <= 5 else None
 
 
-def _split_oversized(text: str, limit: int) -> Iterable[str]:
-    for sentence in _sentences(text):
-        if len(sentence) <= limit:
-            yield sentence
-        else:
-            yield from (sentence[i : i + limit] for i in range(0, len(sentence), limit))
+def _parts(text: str, limit: int = 1800) -> list[str]:
+    paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+    result: list[str] = []
+    for paragraph in paragraphs:
+        if len(paragraph) <= limit:
+            result.append(paragraph)
+            continue
+        result.extend(paragraph[index:index + limit] for index in range(0, len(paragraph), limit))
+    return result
 
 
-def section_aware_chunks(section: Section, body: str, max_chars: int, overlap_chars: int) -> list[str]:
-    """Chunk by paragraph then sentence, preserving section context in every chunk."""
-    context = "\n".join(
-        value for value in (
-            f"Section: {section.number} {section.title}" if section.number else None,
-            f"Source heading: {section.source_heading}" if section.source_heading else None,
-        ) if value
-    )
-    available = max_chars - len(context) - 2
-    if available < 100:
-        raise ValueError("Chunk limit is too small for section context.")
-    units: list[str] = []
-    for paragraph in _paragraphs(body):
-        units.extend(_split_oversized(paragraph, available))
-    chunks: list[str] = []
-    current = ""
-    for unit in units:
-        candidate = f"{current}\n\n{unit}".strip()
-        if current and len(candidate) > available:
-            chunks.append(f"{context}\n\n{current}".strip())
-            current = current[-overlap_chars:] + "\n\n" + unit if overlap_chars else unit
-        else:
-            current = candidate
-    if current:
-        chunks.append(f"{context}\n\n{current}".strip())
+def make_chunks(
+    pages: list[Page],
+    sections: list[Section],
+    *,
+    document_id: str,
+    document_version_id: str,
+    source_file: str,
+    source_file_hash: str,
+    embedding_model: str,
+    embed,
+    pipeline_version: str,
+) -> list[EvidenceChunk]:
+    chunks: list[EvidenceChunk] = []
+    for page in pages:
+        section = section_for_page(sections, page.number)
+        if not page.text:
+            continue
+        section_number = section.number if section else None
+        section_title = section.title if section else "Unstructured source content"
+        source_heading = section.source_heading if section else "Unstructured source content"
+        texts = _parts(page.text)
+        vectors = embed(texts)
+        for index, (text, vector) in enumerate(zip(texts, vectors, strict=True)):
+            identity = f"{document_version_id}:{page.number}:{section_number or 'unstructured'}:{index}:{text}"
+            chunk_id = hashlib.sha256(identity.encode("utf-8")).hexdigest()
+            chunks.append(EvidenceChunk(
+                chunk_id=chunk_id,
+                document_id=document_id,
+                document_version_id=document_version_id,
+                source_file=source_file,
+                source_file_hash=source_file_hash,
+                source_page=page.number,
+                page_range={"start": page.number, "end": page.number},
+                source_heading=source_heading,
+                source_section=section_number or "unstructured",
+                module=_module(section_number),
+                section_number=section_number,
+                section_title=section_title,
+                parent_section=section.parent_section if section else None,
+                relationship_type="primary_guidance" if _module(section_number) else "supporting_guidance",
+                text=text,
+                embedding=[float(value) for value in vector],
+                embedding_model=embedding_model,
+                embedding_dimensions=len(vector),
+                is_current=True,
+                pipeline_version=pipeline_version,
+                ingestion_timestamp=datetime.now(timezone.utc),
+            ))
     return chunks

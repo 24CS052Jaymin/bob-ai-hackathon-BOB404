@@ -1,56 +1,69 @@
 from __future__ import annotations
 
-import hashlib
-import logging
-import re
+import tempfile
 from pathlib import Path
 
-from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile, status
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 
-from .config import Settings
-from .embeddings import Embedder
-from .ingestion import IngestionService
-from .repository import EvidenceRepository
+from .config import settings
+from .embeddings import EmbeddingProvider
+from .ingestion import ingest_pdf
+from .repository import MongoRepository
+from .retrieval import section_search, semantic_search
+from .validation import validate
 
-logger = logging.getLogger(__name__)
-app = FastAPI(title="Official Regulatory Evidence API", version="1.0.0")
-
-
-def _safe_filename(filename: str) -> str:
-    name = Path(filename).name
-    return re.sub(r"[^A-Za-z0-9._-]", "_", name)
-
-
-def _ingest_saved_pdf(pdf_path: Path) -> None:
-    settings = Settings.from_environment()
-    repository = EvidenceRepository(settings)
-    try:
-        repository.ensure_indexes()
-        result = IngestionService(settings, repository, Embedder(settings.embedding_model)).ingest_pdf(pdf_path)
-        logger.info("Official evidence ingestion complete: %s", result)
-    finally:
-        repository.close()
+app = FastAPI(title="Mode 2 Official Evidence API", version="1.0")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+repository = MongoRepository(settings)
 
 
-@app.post("/api/official-evidence/documents", status_code=status.HTTP_202_ACCEPTED)
-async def upload_official_documents(
-    background_tasks: BackgroundTasks,
-    files: list[UploadFile] = File(...),
-) -> dict[str, object]:
-    """Accept official PDFs only; this endpoint never accesses user dossier storage."""
-    settings = Settings.from_environment()
-    settings.pdf_directory.mkdir(parents=True, exist_ok=True)
-    accepted: list[dict[str, str]] = []
-    for file in files:
-        if not file.filename or Path(file.filename).suffix.lower() != ".pdf":
-            raise HTTPException(status_code=415, detail="Only PDF files are accepted for official evidence.")
-        contents = await file.read()
-        if not contents.startswith(b"%PDF"):
-            raise HTTPException(status_code=422, detail=f"{file.filename} is not a valid PDF.")
-        content_hash = hashlib.sha256(contents).hexdigest()
-        destination = settings.pdf_directory / f"{content_hash[:12]}-{_safe_filename(file.filename)}"
-        if not destination.exists():
-            destination.write_bytes(contents)
-        background_tasks.add_task(_ingest_saved_pdf, destination)
-        accepted.append({"filename": destination.name, "source_file_hash": content_hash})
-    return {"status": "queued", "documents": accepted}
+@app.on_event("startup")
+def startup() -> None:
+    repository.ensure_indexes()
+
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok", "database": settings.database, "evidence_collection": settings.evidence_collection, "requirements_collection": settings.requirements_collection}
+
+
+@app.post("/api/official-evidence/documents")
+async def upload_documents(files: list[UploadFile] = File(...)) -> dict:
+    results = []
+    for upload in files:
+        if not upload.filename or not upload.filename.lower().endswith(".pdf"):
+            raise HTTPException(status_code=400, detail="Only PDF files are accepted")
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temporary:
+            temporary.write(await upload.read())
+            temporary_path = Path(temporary.name)
+        try:
+            results.append(ingest_pdf(temporary_path, repository, settings))
+        except Exception as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+        finally:
+            temporary_path.unlink(missing_ok=True)
+    return {"documents": results}
+
+
+@app.get("/api/official-evidence/sections/{section}")
+def get_section(section: str) -> dict:
+    return {"section": section, "chunks": section_search(repository, section)}
+
+
+@app.get("/api/official-evidence/search")
+def search_evidence(query: str, limit: int = 10) -> dict:
+    if not query.strip():
+        raise HTTPException(status_code=400, detail="query is required")
+    embedder = EmbeddingProvider(settings.embedding_model, settings.embedding_dimensions, settings.allow_test_embeddings)
+    return {"query": query, "chunks": semantic_search(repository, embedder, query, max(1, min(limit, 50)))}
+
+
+@app.get("/api/official-evidence/requirements")
+def get_requirements() -> list[dict]:
+    return list(repository.requirements.find({}, {"_id": 0}).sort("requirement_id", 1))
+
+
+@app.get("/api/official-evidence/validation")
+def get_validation() -> dict:
+    return validate(repository)
