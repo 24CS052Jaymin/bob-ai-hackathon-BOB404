@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import logging
 import tempfile
 from pathlib import Path
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from .config import settings
 from .embeddings import EmbeddingProvider
@@ -13,19 +16,49 @@ from .repository import MongoRepository
 from .retrieval import section_search, semantic_search
 from .validation import validate
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(name)s %(levelname)s  %(message)s",
+)
+logger = logging.getLogger(__name__)
+
 app = FastAPI(title="Mode 2 Official Evidence API", version="1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 repository = MongoRepository(settings)
 
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
+    """Log FastAPI/Pydantic request-validation failures so the 422 detail is always visible in the server log."""
+    logger.error(
+        "Request validation error on %s %s — errors: %s",
+        request.method, request.url.path, exc.errors(),
+    )
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})
+
+
 @app.on_event("startup")
 def startup() -> None:
-    repository.ensure_indexes()
+    # Index creation requires an Atlas primary. A temporary replica-set
+    # failover must not prevent the read-only API from starting.
+    try:
+        repository.ensure_indexes()
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Official Evidence index setup skipped: %s", exc)
+    logger.info(
+        "Official Evidence API ready — database=%s collection=%s vector_index=%s",
+        settings.database, settings.evidence_collection, settings.vector_index,
+    )
 
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "database": settings.database, "evidence_collection": settings.evidence_collection, "requirements_collection": settings.requirements_collection}
+    return {
+        "status": "ok",
+        "database": settings.database,
+        "evidence_collection": settings.evidence_collection,
+        "requirements_collection": settings.requirements_collection,
+    }
 
 
 @app.post("/api/official-evidence/documents")
@@ -38,9 +71,21 @@ async def upload_documents(files: list[UploadFile] = File(...)) -> dict:
             temporary.write(await upload.read())
             temporary_path = Path(temporary.name)
         try:
-            results.append(ingest_pdf(temporary_path, repository, settings))
+            result = ingest_pdf(temporary_path, repository, settings)
+            results.append(result)
+            logger.info(
+                "Ingestion complete: file=%s chunks=%d dims=%d",
+                upload.filename,
+                result["chunks_created"],
+                result["pipeline"]["phase5_chunks_embeddings"]["embedding_dimensions"],
+            )
         except Exception as error:
-            raise HTTPException(status_code=422, detail=str(error)) from error
+            import traceback
+            tb = traceback.format_exc()
+            logger.error(
+                "Ingestion failed for %s\n%s", upload.filename, tb,
+            )
+            raise HTTPException(status_code=500, detail=str(error)) from error
         finally:
             temporary_path.unlink(missing_ok=True)
     return {"documents": results}

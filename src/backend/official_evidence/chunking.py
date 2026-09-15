@@ -32,6 +32,7 @@ def make_chunks(
     *,
     document_id: str,
     document_version_id: str,
+    reference_set_id: str,
     source_file: str,
     source_file_hash: str,
     embedding_model: str,
@@ -39,6 +40,7 @@ def make_chunks(
     pipeline_version: str,
 ) -> list[EvidenceChunk]:
     chunks: list[EvidenceChunk] = []
+    global_position = 0
     for page in pages:
         section = section_for_page(sections, page.number)
         if not page.text:
@@ -55,6 +57,7 @@ def make_chunks(
                 chunk_id=chunk_id,
                 document_id=document_id,
                 document_version_id=document_version_id,
+                reference_set_id=reference_set_id,
                 source_file=source_file,
                 source_file_hash=source_file_hash,
                 source_page=page.number,
@@ -65,6 +68,7 @@ def make_chunks(
                 section_number=section_number,
                 section_title=section_title,
                 parent_section=section.parent_section if section else None,
+                chunk_position=global_position,
                 relationship_type="primary_guidance" if _module(section_number) else "supporting_guidance",
                 text=text,
                 embedding=[float(value) for value in vector],
@@ -74,4 +78,5 @@ def make_chunks(
                 pipeline_version=pipeline_version,
                 ingestion_timestamp=datetime.now(timezone.utc),
             ))
+            global_position += 1
     return chunks

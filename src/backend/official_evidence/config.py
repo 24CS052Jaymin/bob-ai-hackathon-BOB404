@@ -13,7 +13,8 @@ load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 @dataclass(frozen=True)
 class Settings:
     mongodb_uri: str = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-    database: str = os.getenv("MONGODB_DATABASE", "Mode2")
+    # Accept the project .env spelling as well as the earlier DATABASE name.
+    database: str = os.getenv("MONGODB_DB_NAME", os.getenv("MONGODB_DATABASE", "Mode2"))
     evidence_collection: str = "CTD"
     requirements_collection: str = "CTD_REQUIREMENTS"
     vector_index: str = "vector_index"

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 
 import pymupdf
 
 from .models import Page, Section
+
+logging.getLogger("MatchingPostProcessor").setLevel(logging.ERROR)
 
 _HEADING = re.compile(r"^\s*((?:[A-Za-z0-9]+\.){1,6}[A-Za-z0-9]+|[IVX]+(?:\.[IVX]+)?)\s+(.{2,180})\s*$")
 
@@ -58,6 +61,6 @@ def structure_with_docling(path: Path, pages: list[Page], sections: list[Section
         title = getattr(getattr(result, "document", None), "name", None)
         if title and sections:
             sections[0].source_heading = f"{title}: {sections[0].source_heading}"
-    except (ImportError, RuntimeError, AttributeError):
+    except Exception:  # noqa: BLE001 — Docling is optional; any failure falls back to PyMuPDF
         pass
     return sections

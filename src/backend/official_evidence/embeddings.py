@@ -2,7 +2,21 @@ from __future__ import annotations
 
 import hashlib
 import math
+import os
 from typing import Sequence
+
+
+def _login_hf() -> None:
+    """Authenticate with Hugging Face Hub if HF_TOKEN is set, suppressing the unauthenticated warning."""
+    token = os.getenv("HF_TOKEN", "").strip()
+    if not token:
+        return
+    try:
+        from huggingface_hub import login  # type: ignore
+
+        login(token=token, add_to_git_credential=False)
+    except Exception:  # noqa: BLE001 — HF login is best-effort
+        pass
 
 
 class EmbeddingProvider:
@@ -10,6 +24,7 @@ class EmbeddingProvider:
         self.model_name = model_name
         self.dimensions = dimensions
         self._model = None
+        _login_hf()
         try:
             from sentence_transformers import SentenceTransformer  # type: ignore
 

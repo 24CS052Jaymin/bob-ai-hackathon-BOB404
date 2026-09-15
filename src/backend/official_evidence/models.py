@@ -31,6 +31,7 @@ class EvidenceChunk:
     chunk_id: str
     document_id: str
     document_version_id: str
+    reference_set_id: str
     source_file: str
     source_file_hash: str
     source_page: int
@@ -41,6 +42,7 @@ class EvidenceChunk:
     section_number: str | None
     section_title: str
     parent_section: str | None
+    chunk_position: int
     relationship_type: str
     text: str
     embedding: list[float]
@@ -73,6 +75,9 @@ class Requirement:
     official_evidence_refs: list[dict[str, Any]]
     expected_evidence: list[str]
     rules_version: str
+    created_at: datetime
+    updated_at: datetime
+    is_current: bool
 
     def mongo_document(self) -> dict[str, Any]:
         return asdict(self)

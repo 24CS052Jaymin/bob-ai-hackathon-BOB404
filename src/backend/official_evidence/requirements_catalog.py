@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Iterable
 
 from .models import EvidenceChunk, Requirement
@@ -42,6 +43,7 @@ def build_requirements(chunks: Iterable[EvidenceChunk]) -> list[Requirement]:
             continue
         first = matches[0]
         refs = [{"chunk_id": chunk.chunk_id, "document_id": chunk.document_id, "document_version_id": chunk.document_version_id, "source_file": chunk.source_file, "source_page": chunk.source_page, "source_section": chunk.source_section} for chunk in matches]
+        now = datetime.now(timezone.utc)
         requirements.append(Requirement(
             requirement_id=rule["id"], module=rule["module"], section_number=rule["section"], section_title=rule["title"],
             parent_section=first.parent_section, requirement_text=rule["text"], requirement_type=rule["type"],
@@ -49,5 +51,6 @@ def build_requirements(chunks: Iterable[EvidenceChunk]) -> list[Requirement]:
             source_document=first.source_file, source_section=first.source_section, source_page=first.source_page,
             source_chunk_ids=[chunk.chunk_id for chunk in matches], official_evidence_refs=refs,
             expected_evidence=rule["evidence"], rules_version=RULES_VERSION,
+            created_at=now, updated_at=now, is_current=True,
         ))
     return requirements

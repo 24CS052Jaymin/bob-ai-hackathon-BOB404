@@ -1,26 +1,22 @@
 import {
   ArrowRight,
-  BookOpen,
   CheckCircle2,
   Cpu,
   Database,
   FileCode,
   FileText,
-  Hash,
   Layers,
   LibraryBig,
   LoaderCircle,
   Network,
   Search,
   Sparkles,
-  Table,
   UploadCloud,
   X,
 } from 'lucide-react';
 import { DragEvent, useRef, useState } from 'react';
 import { Card, PageHeader } from '@/components/common';
-
-const API_URL = import.meta.env.VITE_OFFICIAL_EVIDENCE_API_URL ?? 'http://localhost:8000';
+import { apiRequest } from '@/lib/api';
 
 interface IngestionPhaseStats {
   phase1_official_pdf?: { filename: string; file_size_bytes: number; hash: string };
@@ -177,10 +173,10 @@ export function OfficialCtdPage() {
     try {
       const payload = new FormData();
       files.forEach((file) => payload.append('files', file));
-      const response = await fetch(`${API_URL}/api/official-evidence/documents`, {
+      const response = await apiRequest('/api/official-evidence/documents', {
         method: 'POST',
         body: payload,
-      });
+      }, 120_000);
       await stepTimer;
       const body = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(body.detail ?? 'The official PDFs could not be uploaded.');
@@ -204,8 +200,8 @@ export function OfficialCtdPage() {
     setIsSearching(true);
     setSearchError(undefined);
     try {
-      const response = await fetch(
-        `${API_URL}/api/official-evidence/search?query=${encodeURIComponent(searchQuery)}&limit=8`
+      const response = await apiRequest(
+        `/api/official-evidence/search?query=${encodeURIComponent(searchQuery)}&limit=8`,
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.detail ?? 'Search failed');
