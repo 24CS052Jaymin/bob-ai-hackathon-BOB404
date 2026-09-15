@@ -8,6 +8,7 @@ export { SubmissionOverviewPage } from './submissions/SubmissionOverviewPage';
 export { SubmissionsPage } from './submissions/SubmissionsPage';
 export { ReportsPage } from './reports/ReportsPage';
 export { RequirementsPage } from './requirements/RequirementsPage';
+export { OfficialCtdPage } from './official-ctd/OfficialCtdPage';
 export { HistoryPage } from './history/HistoryPage';
 export { SettingsPage } from './settings/SettingsPage';
 export { NotFoundPage } from './not-found/NotFoundPage';

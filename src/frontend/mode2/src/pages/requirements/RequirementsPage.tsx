@@ -1,21 +1,23 @@
-import { Check, ChevronRight, CircleHelp, Filter, Search } from 'lucide-react';
+import { Check, ChevronRight, CircleHelp, Filter, Loader2, RefreshCw, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Card, PageHeader } from '@/components/common';
-import { modules } from '@/data/mock-data';
-
-const requirements = [
-  { id: '2.7.3', title: 'Summary of clinical efficacy', module: 'Module 2', owner: 'Clinical', status: 'Required' },
-  { id: '3.2.P.5', title: 'Control of drug product', module: 'Module 3', owner: 'CMC', status: 'Required' },
-  { id: '5.3.5.1', title: 'Reports of controlled clinical studies', module: 'Module 5', owner: 'Clinical', status: 'Required' },
-  { id: '1.3.1', title: 'Product information', module: 'Module 1', owner: 'Regulatory', status: 'Regional' },
-  { id: '3.2.S.7', title: 'Stability', module: 'Module 3', owner: 'CMC', status: 'Required' },
-];
+import { useRequirements } from '@/hooks/useSubmission';
 
 export function RequirementsPage() {
+  const { requirements, loading, error, refetch } = useRequirements();
   const [query, setQuery] = useState('');
-  const reqs = requirements.filter((item) =>
-    `${item.id} ${item.title} ${item.module}`.toLowerCase().includes(query.toLowerCase()),
-  );
+  const [selectedModule, setSelectedModule] = useState<string | null>(null);
+
+  // Derive unique modules from live data
+  const modules = Array.from(
+    new Set(requirements.map((r) => r.module).filter(Boolean)),
+  ).sort();
+
+  const filtered = requirements.filter((item) => {
+    const matchesQuery = `${item.requirement_id} ${item.section_title} ${item.module}`.toLowerCase().includes(query.toLowerCase());
+    const matchesModule = !selectedModule || item.module === selectedModule;
+    return matchesQuery && matchesModule;
+  });
 
   return (
     <>
@@ -44,21 +46,41 @@ export function RequirementsPage() {
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
             Navigate the five modules that make up a complete submission.
           </p>
-          <div className="mt-5 space-y-2">
-            {modules.map((module) => (
+
+          {loading ? (
+            <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading…
+            </div>
+          ) : (
+            <div className="mt-5 space-y-2">
               <button
-                key={module.id}
-                className="flex w-full items-center gap-3 rounded-xl p-2.5 text-left hover:bg-muted"
-                data-testid={`button-requirement-${module.id}`}
+                onClick={() => setSelectedModule(null)}
+                className={`flex w-full items-center gap-3 rounded-xl p-2.5 text-left ${!selectedModule ? 'bg-[#e9f7f4] text-primary' : 'hover:bg-muted'}`}
               >
-                <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#e7f6f3] text-[10px] font-extrabold text-primary">
-                  {module.shortName.replace('Module ', 'M')}
-                </span>
-                <span className="flex-1 text-xs font-semibold">{module.name}</span>
-                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#e7f6f3] text-[10px] font-extrabold text-primary">All</span>
+                <span className="flex-1 text-xs font-semibold">All modules ({requirements.length})</span>
               </button>
-            ))}
-          </div>
+              {modules.map((module) => {
+                const count = requirements.filter((r) => r.module === module).length;
+                const key = module.replace('Module ', 'M').replace('module ', 'M');
+                return (
+                  <button
+                    key={module}
+                    onClick={() => setSelectedModule(module)}
+                    className={`flex w-full items-center gap-3 rounded-xl p-2.5 text-left ${selectedModule === module ? 'bg-[#e9f7f4] text-primary' : 'hover:bg-muted'}`}
+                    data-testid={`button-requirement-${module}`}
+                  >
+                    <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#e7f6f3] text-[10px] font-extrabold text-primary">
+                      {key.slice(0, 2)}
+                    </span>
+                    <span className="flex-1 text-xs font-semibold">{module}</span>
+                    <span className="text-[10px] text-muted-foreground">{count}</span>
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </Card>
 
         <Card className="overflow-hidden">
@@ -81,27 +103,56 @@ export function RequirementsPage() {
               <Filter className="h-4 w-4" /> Filters
             </button>
           </div>
-          <div className="divide-y divide-border/70">
-            {reqs.map((item) => (
-              <button
-                key={item.id}
-                className="flex w-full items-center gap-4 px-5 py-4 text-left hover:bg-[#f8fcfb]"
-                data-testid={`row-requirement-${item.id}`}
-              >
-                <span className="w-20 text-xs font-extrabold text-primary">{item.id}</span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-xs font-bold">{item.title}</span>
-                  <span className="mt-1 block text-[10px] text-muted-foreground">
-                    {item.module} · Owner: {item.owner}
-                  </span>
-                </span>
-                <span className="hidden rounded-full bg-[#eaf4ef] px-2.5 py-1 text-[10px] font-bold text-[#4b8d70] sm:block">
-                  {item.status}
-                </span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+
+          {loading && (
+            <div className="flex items-center justify-center gap-2 p-12 text-sm text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" /> Loading requirements…
+            </div>
+          )}
+
+          {!loading && error && (
+            <div className="p-8 text-center">
+              <p className="text-sm font-bold text-destructive">{error}</p>
+              <button onClick={refetch} className="mt-4 inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-xs font-bold hover:bg-muted">
+                <RefreshCw className="h-4 w-4" /> Retry
               </button>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="divide-y divide-border/70">
+              {filtered.length === 0 ? (
+                <div className="p-10 text-center text-xs text-muted-foreground">
+                  {requirements.length === 0 ? 'No requirements loaded.' : 'No requirements match your search.'}
+                </div>
+              ) : (
+                filtered.slice(0, 100).map((item) => (
+                  <button
+                    key={item.requirement_id}
+                    className="flex w-full items-center gap-4 px-5 py-4 text-left hover:bg-[#f8fcfb]"
+                    data-testid={`row-requirement-${item.requirement_id}`}
+                  >
+                    <span className="w-24 shrink-0 text-xs font-extrabold text-primary">{item.requirement_id}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-bold">{item.section_title}</span>
+                      <span className="mt-1 block text-[10px] text-muted-foreground">
+                        {item.module} · {item.mandatory_status}
+                      </span>
+                    </span>
+                    <span className="hidden rounded-full bg-[#eaf4ef] px-2.5 py-1 text-[10px] font-bold text-[#4b8d70] sm:block">
+                      {item.applicability || item.mandatory_status}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </button>
+                ))
+              )}
+              {filtered.length > 100 && (
+                <div className="px-5 py-3 text-xs text-muted-foreground">
+                  Showing 100 of {filtered.length} requirements. Refine your search to see more.
+                </div>
+              )}
+            </div>
+          )}
         </Card>
       </div>
     </>

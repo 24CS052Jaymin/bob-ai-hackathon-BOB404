@@ -1,3 +1,22 @@
+// ── Re-export API types so the rest of the app can import from @/types ─────
+export type {
+  SubmissionRecord,
+  GapRecord,
+  ModuleScore,
+  SubmissionReport,
+  RequirementResult,
+  EvidenceDocument,
+  EvidenceStats,
+  EvidenceResponse,
+  UploadResult,
+  Recommendation,
+  ApiRequirement,
+  CreateSubmissionInput,
+} from '@/lib/api';
+
+// ── Legacy UI-layer types (kept for backward compatibility) ─────────────────
+
+/** @deprecated Use SubmissionRecord from @/lib/api */
 export type Submission = {
   id: string;
   product: string;

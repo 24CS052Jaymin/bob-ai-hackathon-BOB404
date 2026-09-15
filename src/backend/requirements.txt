@@ -1,0 +1,9 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pymongo>=4.8
+PyMuPDF>=1.24
+docling>=2.0
+sentence-transformers>=3.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.1
+pytest>=8.0

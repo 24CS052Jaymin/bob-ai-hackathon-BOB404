@@ -8,6 +8,7 @@ import {
   ModulesPage,
   NewSubmissionPage,
   NotFoundPage,
+  OfficialCtdPage,
   ReportsPage,
   RequirementsPage,
   SettingsPage,
@@ -29,6 +30,7 @@ export function AppRoutes() {
       <Route path="/submissions/:id" component={SubmissionOverviewPage} />
       <Route path="/reports" component={ReportsPage} />
       <Route path="/requirements" component={RequirementsPage} />
+      <Route path="/official-ctd" component={OfficialCtdPage} />
       <Route path="/history" component={HistoryPage} />
       <Route path="/settings" component={SettingsPage} />
       <Route component={NotFoundPage} />
