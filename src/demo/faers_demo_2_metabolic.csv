@@ -1,0 +1,141 @@
+report_id,suspect_drug,reactions
+2001,metformin,lactic acidosis
+2002,metformin,lactic acidosis
+2003,metformin,lactic acidosis; nausea
+2004,metformin,nausea; diarrhoea
+2005,metformin,lactic acidosis
+2006,metformin,lactic acidosis; vomiting
+2007,metformin,diarrhoea
+2008,metformin,lactic acidosis
+2009,metformin,nausea
+2010,metformin,lactic acidosis; renal impairment
+2011,metformin,lactic acidosis
+2012,metformin,vomiting; abdominal pain
+2013,metformin,lactic acidosis
+2014,metformin,lactic acidosis
+2015,metformin,nausea; fatigue
+2016,glibenclamide,hypoglycaemia
+2017,glibenclamide,hypoglycaemia
+2018,glibenclamide,hypoglycaemia; tremor
+2019,glibenclamide,hypoglycaemia; sweating
+2020,glibenclamide,hypoglycaemia
+2021,glibenclamide,weight gain
+2022,glibenclamide,hypoglycaemia; confusion
+2023,glibenclamide,hypoglycaemia
+2024,glibenclamide,nausea
+2025,glibenclamide,hypoglycaemia
+2026,glibenclamide,hypoglycaemia; seizure
+2027,glibenclamide,hypoglycaemia
+2028,glibenclamide,weight gain; oedema
+2029,glibenclamide,hypoglycaemia
+2030,glibenclamide,tremor
+2031,insulin glargine,hypoglycaemia
+2032,insulin glargine,hypoglycaemia
+2033,insulin glargine,hypoglycaemia; coma
+2034,insulin glargine,injection site reaction
+2035,insulin glargine,hypoglycaemia
+2036,insulin glargine,hypoglycaemia; tremor
+2037,insulin glargine,weight gain
+2038,insulin glargine,hypoglycaemia
+2039,insulin glargine,hypoglycaemia; seizure
+2040,insulin glargine,oedema
+2041,insulin glargine,hypoglycaemia
+2042,insulin glargine,hypoglycaemia; confusion
+2043,insulin glargine,hypoglycaemia
+2044,insulin glargine,injection site reaction; lipohypertrophy
+2045,insulin glargine,hypoglycaemia
+2046,sitagliptin,pancreatitis
+2047,sitagliptin,pancreatitis
+2048,sitagliptin,pancreatitis; nausea
+2049,sitagliptin,nasopharyngitis
+2050,sitagliptin,pancreatitis
+2051,sitagliptin,pancreatitis; abdominal pain
+2052,sitagliptin,urinary tract infection
+2053,sitagliptin,pancreatitis
+2054,sitagliptin,pancreatitis
+2055,sitagliptin,nasopharyngitis; upper respiratory infection
+2056,empagliflozin,urinary tract infection
+2057,empagliflozin,urinary tract infection
+2058,empagliflozin,genital mycotic infection
+2059,empagliflozin,urinary tract infection; genital mycotic infection
+2060,empagliflozin,diabetic ketoacidosis
+2061,empagliflozin,urinary tract infection
+2062,empagliflozin,polyuria
+2063,empagliflozin,diabetic ketoacidosis; nausea
+2064,empagliflozin,urinary tract infection
+2065,empagliflozin,hypotension
+2066,empagliflozin,urinary tract infection
+2067,empagliflozin,genital mycotic infection; urinary tract infection
+2068,empagliflozin,urinary tract infection
+2069,empagliflozin,diabetic ketoacidosis
+2070,empagliflozin,Fournier gangrene
+2071,levothyroxine,palpitations
+2072,levothyroxine,palpitations; tremor
+2073,levothyroxine,palpitations
+2074,levothyroxine,insomnia; anxiety
+2075,levothyroxine,palpitations; weight loss
+2076,levothyroxine,palpitations
+2077,levothyroxine,diarrhoea
+2078,levothyroxine,palpitations; sweating
+2079,levothyroxine,palpitations
+2080,levothyroxine,tremor; anxiety
+2081,prednisone,hyperglycaemia
+2082,prednisone,hyperglycaemia; weight gain
+2083,prednisone,osteoporosis
+2084,prednisone,hyperglycaemia
+2085,prednisone,adrenal insufficiency
+2086,prednisone,hyperglycaemia; oedema
+2087,prednisone,hyperglycaemia
+2088,prednisone,weight gain; oedema
+2089,prednisone,hyperglycaemia
+2090,prednisone,cataracts; hyperglycaemia
+2091,allopurinol,steven-johnson syndrome
+2092,allopurinol,steven-johnson syndrome; rash
+2093,allopurinol,rash
+2094,allopurinol,steven-johnson syndrome
+2095,allopurinol,hepatotoxicity
+2096,allopurinol,steven-johnson syndrome; fever
+2097,allopurinol,steven-johnson syndrome
+2098,allopurinol,rash; pruritus
+2099,allopurinol,steven-johnson syndrome
+2100,allopurinol,toxic epidermal necrolysis
+2101,colchicine,diarrhoea
+2102,colchicine,diarrhoea; nausea
+2103,colchicine,myopathy
+2104,colchicine,diarrhoea
+2105,colchicine,neuropathy
+2106,colchicine,diarrhoea; vomiting
+2107,colchicine,diarrhoea
+2108,colchicine,bone marrow suppression
+2109,colchicine,diarrhoea
+2110,colchicine,myopathy; diarrhoea
+2111,methotrexate,hepatotoxicity
+2112,methotrexate,hepatotoxicity; nausea
+2113,methotrexate,mucositis
+2114,methotrexate,hepatotoxicity
+2115,methotrexate,pulmonary toxicity
+2116,methotrexate,hepatotoxicity; fatigue
+2117,methotrexate,hepatotoxicity
+2118,methotrexate,bone marrow suppression; hepatotoxicity
+2119,methotrexate,hepatotoxicity
+2120,methotrexate,nausea; mouth ulcers
+2121,background_drug_a,nausea
+2122,background_drug_a,headache
+2123,background_drug_a,fatigue
+2124,background_drug_b,dizziness
+2125,background_drug_b,rash
+2126,background_drug_c,vomiting
+2127,background_drug_c,abdominal pain
+2128,background_drug_d,insomnia
+2129,background_drug_d,anxiety
+2130,background_drug_e,dry mouth
+2131,background_drug_f,constipation
+2132,background_drug_g,diarrhoea
+2133,background_drug_h,back pain
+2134,background_drug_i,oedema
+2135,background_drug_j,palpitations
+2136,background_drug_k,cough
+2137,background_drug_l,weight gain
+2138,background_drug_m,fatigue; headache
+2139,background_drug_n,nausea; vomiting
+2140,background_drug_o,skin rash

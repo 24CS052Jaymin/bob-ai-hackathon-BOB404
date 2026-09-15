@@ -17,6 +17,18 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    // Proxy /api/* and /health to the FastAPI backend so CORS is never an issue
+    // in development. Change the target if the backend runs on a different port.
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/health': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
   },
   preview: {
     port: 4173,

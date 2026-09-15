@@ -1,15 +1,43 @@
 import { ChevronRight, Download, Printer, ShieldCheck } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, PageHeader } from '@/components/common';
 import { useApp } from '@/context/AppProvider';
-import { signals } from '@/data/mock-data';
 
 const sections = ['Executive summary', 'Screening population', 'Top signals', 'Cluster observations', 'Methodology & caveats'];
 
 export function ReportsPage() {
-  const { notify } = useApp();
+  const { signals, notify } = useApp();
   const [includeAppendix, setIncludeAppendix] = useState(true);
-  const topSignals = signals.slice().sort((a, b) => b.prr - a.prr).slice(0, 4);
+  const topSignals = useMemo(() => signals.slice().sort((a, b) => b.prr - a.prr).slice(0, 4), [signals]);
+  const highPriorityCount = useMemo(() => signals.filter((s) => s.priority === 'High').length, [signals]);
+
+  const exportReportCSV = () => {
+    if (signals.length === 0) {
+      notify('No signals to export');
+      return;
+    }
+    const headers = ['Drug', 'Event', 'Reports', 'PRR', 'Cluster', 'Priority', 'Status'];
+    const rows = signals.map(s => [
+      `"${s.drug.replace(/"/g, '""')}"`,
+      `"${s.event.replace(/"/g, '""')}"`,
+      s.reports,
+      s.prr,
+      `"${s.cluster.replace(/"/g, '""')}"`,
+      s.priority,
+      s.status
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `regulens_full_report.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    notify('Report exported as CSV successfully');
+  };
 
   return (
     <div className="mx-auto max-w-[1200px] animate-enter">
@@ -19,11 +47,11 @@ export function ReportsPage() {
         description="A review-ready summary of the FAERS Q2 2024 screening run."
         actions={
           <>
-            <Button testId="button-print-report" variant="secondary" onClick={() => notify('Print dialog simulation opened')} icon={<Printer size={14} />}>
+            <Button testId="button-print-report" variant="secondary" onClick={() => window.print()} icon={<Printer size={14} />}>
               Print
             </Button>
-            <Button testId="button-export-report" onClick={() => notify('Report export prepared as PDF')} icon={<Download size={14} />}>
-              Export PDF
+            <Button testId="button-export-report" onClick={exportReportCSV} icon={<Download size={14} />}>
+              Export CSV
             </Button>
           </>
         }
@@ -83,10 +111,10 @@ export function ReportsPage() {
             <div className="mt-7 grid grid-cols-3 gap-3">
               {(
                 [
-                  ['48,210', 'Reports screened'],
-                  ['112', 'Signals detected'],
-                  ['9', 'High priority'],
-                ] as const
+                  [signals.length > 0 ? signals.reduce((s, x) => s + x.reports, 0).toLocaleString() : '—', 'Reports screened'],
+                  [signals.length > 0 ? signals.length.toLocaleString() : '—', 'Signals detected'],
+                  [signals.length > 0 ? String(highPriorityCount) : '—', 'High priority'],
+                ] as [string, string][]
               ).map(([v, l]) => (
                 <div key={l} className="rounded-xl bg-teal-50 p-3">
                   <div className="mono text-xl font-bold text-teal-700">{v}</div>
